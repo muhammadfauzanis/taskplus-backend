@@ -61,9 +61,6 @@ const subjectSchema = mongoose.Schema(
     dosen: {
       type: String,
     },
-    banner: {
-      type: String,
-    },
     type_subject: {
       type: String,
     },
@@ -90,10 +87,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
     },
     password: {
       type: String,

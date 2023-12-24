@@ -5,8 +5,7 @@ import mongoose from 'mongoose'
 const signupUser = async (req, res) => {
   try {
     // property yg ada di req.body
-    const { name, email, username, phoneNumber, password, repassword } =
-      req.body
+    const { name, email, username, password, repassword } = req.body
 
     // cek apakah user ada di db
     const user = await User.findOne({ $or: [{ email }, { username }] })
@@ -28,7 +27,7 @@ const signupUser = async (req, res) => {
       name,
       email,
       username,
-      phoneNumber,
+
       password: hashedPassword,
     })
     await newUser.save()
@@ -41,7 +40,6 @@ const signupUser = async (req, res) => {
         _id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        phoneNumber: newUser.phoneNumber,
         username: newUser.username,
         profilePic: newUser.profilePic,
       })
@@ -75,7 +73,6 @@ const loginUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      phoneNumber: user.phoneNumber,
       username: user.username,
       profilePic: user.profilePic,
     })
@@ -96,7 +93,7 @@ const logoutUser = (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-  const { name, email, phoneNumber, username, password } = req.body
+  const { name, email, username, password } = req.body
   let { profilePic } = req.body
 
   const userId = req.user._id
@@ -128,7 +125,6 @@ const updateUser = async (req, res) => {
 
     user.name = name || user.name
     user.email = email || user.email
-    user.phoneNumber = phoneNumber || user.phoneNumber
     user.username = username || user.username
     user.profilePic = profilePic || user.profilePic
 
