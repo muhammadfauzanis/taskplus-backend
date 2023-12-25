@@ -20,7 +20,8 @@ app.use(
 
 const PORT = process.env.PORT || 5000
 
-app.use(express.json()) // for parsing application/json data in the request body
+// Tambahkan konfigurasi limit untuk express.json()
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded data in the request body
 app.use(cookieParser())
 
