@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt
+    const token = req.header('auth-token');
 
     if (!token) return res.status(401).json({ message: 'Unauthorized' })
 

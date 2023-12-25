@@ -15,12 +15,7 @@ connectDB()
 const app = express()
 
 app.use(
-  cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-    // allowedHeaders: ['Content-Type', 'Authorization'],
-  })
+  cors()
 )
 
 const PORT = process.env.PORT || 5000
