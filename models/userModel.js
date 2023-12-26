@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const taskSchema = mongoose.Schema(
   {
@@ -30,7 +30,7 @@ const taskSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-)
+);
 
 const noteSchema = mongoose.Schema(
   {
@@ -50,7 +50,7 @@ const noteSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-)
+);
 
 const subjectSchema = mongoose.Schema(
   {
@@ -70,7 +70,7 @@ const subjectSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-)
+);
 
 const userSchema = mongoose.Schema(
   {
@@ -99,13 +99,17 @@ const userSchema = mongoose.Schema(
     },
     subjects: [subjectSchema],
     notes: [noteSchema],
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
   }
-)
+);
 
-const User = mongoose.model('User', userSchema)
-const Subject = mongoose.model('Subject', subjectSchema)
+const User = mongoose.model('User', userSchema);
+const Subject = mongoose.model('Subject', subjectSchema);
 
-export { User, Subject }
+export { User, Subject };
