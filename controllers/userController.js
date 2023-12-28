@@ -3,7 +3,10 @@ import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
 import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
-import { sendVerificationEmail } from './verificationController.js';
+import {
+  sendVerificationEmail,
+  generateVerificationCode,
+} from './verificationController.js';
 import { Token } from '../models/tokenModel.js';
 import crypto from 'crypto';
 
@@ -41,10 +44,10 @@ const signupUser = async (req, res) => {
     // ngirim email verifikasi
     const token = await new Token({
       userId: newUser._id,
-      token: crypto.randomBytes(32).toString('hex'),
+      token: generateVerificationCode(),
     }).save();
-    // const url = `http://localhost:${process.env.PORT}/users/${newUser._id}/verify/${token.token}`;
-    await sendVerificationEmail(newUser.email, 'Verify email', token.token);
+    const url = `${process.env.BASE_URL_VERIF}/${newUser._id}/verify/${token.token}`;
+    await sendVerificationEmail(newUser.email, 'Verify email', url);
 
     // buat response
     if (newUser) {
@@ -69,18 +72,20 @@ const signupUser = async (req, res) => {
 };
 
 const verifyUser = async (req, res) => {
-  const userEmail = req.body.email;
+  const userId = req.params.id;
+  const verificationCode = req.params.verifcode;
 
   try {
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findById(userId);
 
-    if (!user) return res.status(400).send({ message: 'Invalid Link' });
+    if (!user) return res.status(400).send({ message: 'Invalid Code' });
 
     const token = await Token.findOne({
       userId: user._id,
-      token: req.params.token,
+      token: verificationCode,
     });
-    if (!token) return res.status(400).send({ message: 'Invalid Link' });
+
+    if (!token) return res.status(400).send({ message: 'Invalid Code' });
 
     user.isVerified = true;
     await user.save();

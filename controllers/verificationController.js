@@ -15,12 +15,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendVerificationEmail(userEmail, subject, text) {
+async function sendVerificationEmail(userEmail, subject, verificationLink) {
   const mailOptions = {
     from: 'taskplus.squad@gmail.com',
     to: userEmail,
     subject: subject,
-    text: `Your verification code: ${text}`,
+    html: `
+    <p>Please click the following link to verify your email:</p>
+    <p><a href="${verificationLink}">Click here</a></p>
+  `,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -32,4 +35,9 @@ async function sendVerificationEmail(userEmail, subject, text) {
   });
 }
 
-export { sendVerificationEmail };
+function generateVerificationCode() {
+  // Implementasi untuk menghasilkan kode verifikasi, misalnya menggunakan angka acak
+  return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
+export { sendVerificationEmail, generateVerificationCode };

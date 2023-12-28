@@ -1,36 +1,42 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import connectDB from './db/connectDB.js'
-import cookieParser from 'cookie-parser'
-import userRoutes from './routes/userRoutes.js'
-import cors from 'cors'
-import subjectRoutes from './routes/subjectRoutes.js'
-import taskRoutes from './routes/taskRoutes.js'
-import notesRotes from './routes/notesRoutes.js'
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './db/connectDB.js';
+import cookieParser from 'cookie-parser';
+import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
+import subjectRoutes from './routes/subjectRoutes.js';
+import taskRoutes from './routes/taskRoutes.js';
+import notesRotes from './routes/notesRoutes.js';
 
-dotenv.config()
+dotenv.config();
 
-connectDB()
+connectDB();
 
-const app = express()
+const app = express();
 
-app.use(
-  cors()
-)
+app.use(cors());
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
+
+app.get('/', (req, res) => {
+  function generateVerificationCode() {
+    // Implementasi untuk menghasilkan kode verifikasi, misalnya menggunakan angka acak
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  }
+  console.log(generateVerificationCode());
+});
 
 // Tambahkan konfigurasi limit untuk express.json()
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded data in the request body
-app.use(cookieParser())
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded data in the request body
+app.use(cookieParser());
 
 // Routes
-app.use('/v1/api/users', userRoutes)
-app.use('/v1/api/subjects', subjectRoutes)
-app.use('/v1/api/tasks', taskRoutes)
-app.use('/v1/api/notes', notesRotes)
+app.use('/v1/api/users', userRoutes);
+app.use('/v1/api/subjects', subjectRoutes);
+app.use('/v1/api/tasks', taskRoutes);
+app.use('/v1/api/notes', notesRotes);
 
 app.listen(PORT, () => {
-  console.log(`Server started at  http://localhost:${PORT}`)
-})
+  console.log(`Server started at  http://localhost:${PORT}`);
+});
