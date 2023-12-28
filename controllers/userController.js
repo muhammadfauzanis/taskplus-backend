@@ -3,11 +3,8 @@ import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
 import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
-import {
-  generateVerificationCode,
-  sendVerificationEmail,
-} from './verificationController.js';
-import { Token } from '../models/token.js';
+import { sendVerificationEmail } from './verificationController.js';
+import { Token } from '../models/tokenModel.js';
 import crypto from 'crypto';
 
 const signupUser = async (req, res) => {

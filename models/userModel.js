@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const taskSchema = mongoose.Schema(
   {
@@ -34,17 +34,28 @@ const taskSchema = mongoose.Schema(
 
 const noteSchema = mongoose.Schema(
   {
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     title: {
       type: String,
       required: true,
     },
-    content: {
+    description: {
       type: String,
       required: true,
     },
-    subject: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Subject',
+    createAt: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
+    updateAt: {
+      type: Date,
+      required: true,
+      default: Date.now(),
     },
   },
   {
@@ -65,7 +76,6 @@ const subjectSchema = mongoose.Schema(
       type: String,
     },
     tasks: [taskSchema],
-    notes: [noteSchema],
   },
   {
     timestamps: true,
